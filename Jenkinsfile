@@ -10,6 +10,14 @@ pipeline {
     stage('build') {
       steps {
         sh './jenkins/build.sh'
+        archiveArtifacts 'target/*.war'
+      }
+    }
+    stage('test') {
+      steps {
+        sh './jenkins/test-all.sh'
+        junit '**/surefire-reports/**/*.xml'
+        junit '**/test-results/karma/*.xml'
       }
     }
   }
